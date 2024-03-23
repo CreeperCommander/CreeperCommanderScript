@@ -7,7 +7,10 @@ do
     if [ $? -eq 0 ];
     then
         echo $i" is installed"
-        
+        if [ "$i" = "node" ];
+        then
+            nodeIsInstalled=true
+        fi
     else
         echo $i" is not installed"
         if [ "$i" = "node" ];

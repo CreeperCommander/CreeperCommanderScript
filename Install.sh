@@ -12,13 +12,11 @@ function CheckingPackageInstalled() {
 workingDir=$(pwd)
 packagesNeeded=(curl git node)
 packagesWillBeInstalled=()
-nodeIsInstalled=true
+nodeIsInstalled=false
 
 source $workingDir/DetectPackageManager.sh
 echo "Your package manager is $PACKAGEMANAGER"
 cd $HOME
-
-
 
 source $workingDir/CheckingPackageInstall.sh
 
@@ -40,22 +38,25 @@ else
     then
         echo "Installing packages..."
         sudo $PACKAGEMANAGER install -y ${packagesWillBeInstalled[@]}
-        if [ "$nodeIsInstalled" = false ];
-        then
-            echo "Node is not installed"
-            echo "Installing Node..."
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-            nvm install v20.11.1
-        fi
+        
     else
         echo "Installation is canceled">&2;
     fi
 fi
 
+if [ "$nodeIsInstalled" = false ];
+then
+    echo "Node is not installed"
+    echo "Installing Node..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    source ~/.bashrc
+    nvm install v20.11.1
+    nvm use v20.11.1
+fi
 
 
 git clone https://github.com/CreeperCommander/CreeperCommanderWebsite
 cd $HOME/CreeperCommanderWebsite
 npm install
 
-echo "Installation completed"
+echo "Installation of CreeperCommander completed"
