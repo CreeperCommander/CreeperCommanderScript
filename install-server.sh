@@ -36,19 +36,7 @@ mkdir $HOME/CreeperCommander/servers/$serverVersion-$serverName -p
 cd $HOME/CreeperCommander/servers/$serverVersion-$serverName
 wget https://serverjars.com/api/fetchJar/minecraft/$serverVersion -O $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
 
-# Ask the user to agree to the EULA
-read -p "Do you agree to the Minecraft EULA? (Y/n)" -n 1 -r
-if [ "$REPLY" = "" ];
-then
-    REPLY="Y"
-fi
-if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ];
-then
-    echo "eula=true" > eula.txt
-else
-    echo "You must agree to the Minecraft EULA to continue"
-    exit 1
-fi
+echo "eula=true" > eula.txt
 
 java -Xmx1024M -Xms512M -jar server.jar nogui
 chmod +x start.sh
