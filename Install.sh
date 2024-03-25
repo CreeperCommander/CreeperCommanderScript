@@ -10,15 +10,16 @@ function CheckingPackageInstalled() {
 }
 
 workingDir=$(pwd)
+installDir=$workingDir/Install
 packagesNeeded=(curl git node)
 packagesWillBeInstalled=()
 nodeIsInstalled=false
 
-source $workingDir/DetectPackageManager.sh
+source $installDir/DetectPackageManager.sh
 echo "Your package manager is $PACKAGEMANAGER"
 cd $HOME
 
-source $workingDir/CheckingPackageInstall.sh
+source $installDir/CheckingPackageInstall.sh
 
 if [ "${#packagesWillBeInstalled[@]}" -eq 0 ];
 then
