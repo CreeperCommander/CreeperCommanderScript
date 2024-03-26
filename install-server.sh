@@ -6,9 +6,9 @@ then
 fi
 
 # Check if the server version is specified
-if [ "$#" -ne 1 ];
+if [ "$#" -e 0 ];
 then
-    echo "Usage: $0 <server version>"
+    echo "Usage: $0 <server version> <server name>"
     exit 1
 fi
 
