@@ -19,6 +19,13 @@ serverVersion=$1
 shift
 serverName=$@
 
+# Return if the server name is not specified
+if [ -z "$serverName" ];
+then
+    echo "You must specify the server name"
+    exit 1
+fi
+
 # Check if the server is already installed
 if [ -d "$HOME/CreeperCommander/servers/$serverVersion-$serverName" ];
 then
