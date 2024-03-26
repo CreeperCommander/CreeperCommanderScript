@@ -46,6 +46,19 @@ cd $HOME/CreeperCommander/servers/$serverVersion-$serverName
 wget https://serverjars.com/api/fetchJar/servers/$serverVersion -O $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
 
 echo "eula=true" > eula.txt
+echo "serverJar=server.jar
+serverVersion=$serverVersion
+serverName=minecraft-server-$serverVersion
+serverPort=25565
+serverIp=localhost
+serverMaxPlayers=20
+serverMotd=Welcome to the server
+serverDifficulty=easy
+serverGamemode=survival
+serverWorld=world
+serverSeed=
+serverSpawnProtection=16
+serverViewDistance=10" >> server.properties
 
 java -Xmx1024M -Xms512M -jar server.jar nogui
 chmod +x start.sh
@@ -53,19 +66,6 @@ chmod +x start.sh
 rm $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
 
 
-# echo "serverJar=server.jar
-# serverVersion=$serverVersion
-# serverName=minecraft-server-$serverVersion
-# serverPort=25565
-# serverIp=localhost
-# serverMaxPlayers=20
-# serverMotd=Welcome to the server
-# serverDifficulty=easy
-# serverGamemode=survival
-# serverWorld=world
-# serverSeed=
-# serverSpawnProtection=16
-# serverViewDistance=10" >> server.properties
 
 # # Create the service
 # echo "[Unit]" > minecraft-server-$serverVersion.service
