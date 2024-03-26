@@ -1,52 +1,54 @@
+#!/bin/bash
+
 # Check if the script is run as root
-if [ "$EUID" -ne 0 ];
-then
+if [ "$EUID" -ne 0 ]; then
     echo "You must run this script as root"
     exit 1
 fi
 
-# Check if the server version is specified
-if [ "$#" -e 0 ];
-then
-    echo "Usage: $0 <server version> <server name>"
+# Check if the required arguments are provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <server_version> <server_name>"
     exit 1
 fi
 
-# Get the server version
-serverVersion=$1
+# Extract arguments
+serverVersion="$1"
+serverName="$2"
 
-# Get the server name
-shift
-serverName=$@
-
-# Return if the server name is not specified
-if [ -z "$serverName" ];
-then
+# Check if the server name is provided
+if [ -z "$serverName" ]; then
     echo "You must specify the server name"
     exit 1
 fi
 
-# Check if the server is already installed
-if [ -d "$HOME/CreeperCommander/servers/$serverVersion-$serverName" ];
-then
-    echo "Server is already exists with the same name and version"
+# Check if the server already exists
+if [ -d "$HOME/CreeperCommander/servers/$serverVersion-$serverName" ]; then
+    echo "Server already exists with the same name and version"
     exit 1
 fi
 
-# Create the minecraft user with all the necessary permissions and without console queries
-useradd -m -d /home/minecraft -s /bin/bash minecraft
+# Create the minecraft user if not exists
+if ! id "minecraft" &>/dev/null; then
+    useradd -m -d /home/minecraft -s /bin/bash minecraft
+fi
+
+# Set up sudo permissions for the minecraft user
 echo "minecraft ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/minecraft
 echo "Defaults:minecraft !requiretty" >> /etc/sudoers.d/minecraft
 
 # Create the server directory
-mkdir $HOME/CreeperCommander/servers/$serverVersion-$serverName -p
-cd $HOME/CreeperCommander/servers/$serverVersion-$serverName
+serverDir="$HOME/CreeperCommander/servers/$serverVersion-$serverName"
+mkdir -p "$serverDir"
+cd "$serverDir" || exit 1
 
 # Install the server
-wget https://serverjars.com/api/fetchJar/servers/$serverVersion -O $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
-
+wget "https://serverjars.com/api/fetchJar/servers/$serverVersion" -O "server.jar"
 echo "eula=true" > eula.txt
-echo "serverJar=server.jar
+
+# Create server properties
+cat << EOF > server.properties
+serverJar=server.jar
 serverVersion=$serverVersion
 serverName=minecraft-server-$serverVersion
 serverPort=25565
@@ -58,48 +60,42 @@ serverGamemode=survival
 serverWorld=world
 serverSeed=
 serverSpawnProtection=16
-serverViewDistance=10" >> server.properties
+serverViewDistance=10
+EOF
 
+# Start the server
 java -Xmx1024M -Xms512M -jar server.jar nogui
-chmod +x start.sh
 
-rm $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
+# Clean up server jar
+rm "server.jar"
 
-
-
-# # Create the service
-# echo "[Unit]" > minecraft-server-$serverVersion.service
-# echo "Description=Minecraft Server
+# Optional: Create service and start it (uncomment if needed)
+# Create the service
+# cat << EOF > minecraft-server-$serverVersion.service
+# [Unit]
+# Description=Minecraft Server
 # After=network.target
-
+#
 # [Service]
 # Type=simple
 # User=$USER
-# WorkingDirectory=$HOME/minecraft-server-$serverVersion
-# ExecStart=$HOME/minecraft-server-$serverVersion/start.sh
+# WorkingDirectory=$serverDir
+# ExecStart=/usr/bin/java -Xms1G -Xmx1G -jar server.jar
 # Restart=on-failure
-
+#
 # [Install]
-# WantedBy=multi-user.target" >> minecraft-server-$serverVersion.service
+# WantedBy=multi-user.target
+# EOF
+#
+# # Enable and start the service
+# systemctl enable "$serverDir/minecraft-server-$serverVersion.service"
+# systemctl start "minecraft-server-$serverVersion"
 
-# # Create the start script
-# echo "#!/bin/bash" > start.sh
-# echo "java -Xms1G -Xmx1G -jar server.jar" >> start.sh
-
-# Move the files to the server directory
-
-# # Enable the service
-# systemctl enable $HOME/CreeperCommander/servers/$serverVersion-$serverName/minecraft-server-$serverVersion.service
-
-# # Start the service
-# systemctl start minecraft-server-$serverVersion
-
-# # Check if the server is running
-# if [ "$(systemctl is-active minecraft-server-$serverVersion)" = "active" ];
-# then
+# Check if the server is running
+# if systemctl is-active --quiet "minecraft-server-$serverVersion"; then
 #     echo "Server is running"
 # else
 #     echo "Server failed to start"
 # fi
 
-# Delete the temporary files
+exit 0
