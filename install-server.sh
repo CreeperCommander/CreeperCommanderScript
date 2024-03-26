@@ -26,15 +26,17 @@ then
     exit 1
 fi
 
-# Create the minecraft user
-sudo adduser minecraft
+# Create the minecraft user with all the necessary permissions and without console queries
+useradd -m -d /home/minecraft -s /bin/bash minecraft
+echo "minecraft ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/minecraft
+echo "Defaults:minecraft !requiretty" >> /etc/sudoers.d/minecraft
 
-su - minecraft
-
-# Install the server
+# Create the server directory
 mkdir $HOME/CreeperCommander/servers/$serverVersion-$serverName -p
 cd $HOME/CreeperCommander/servers/$serverVersion-$serverName
-wget https://serverjars.com/api/fetchJar/minecraft/$serverVersion -O $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
+
+# Install the server
+wget https://serverjars.com/api/fetchJar/servers/$serverVersion -O $HOME/CreeperCommander/servers/$serverVersion-$serverName/server.jar
 
 echo "eula=true" > eula.txt
 
