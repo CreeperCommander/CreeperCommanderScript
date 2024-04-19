@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 function CheckingPackageInstalled() {
     if [ -x "$(command -v $1)" ];
     then
@@ -11,9 +12,8 @@ function CheckingPackageInstalled() {
 
 workingDir=$(pwd)
 installDir=$workingDir/Install
-packagesNeeded=(curl git node)
+packagesNeeded=(git docker docker-compose)
 packagesWillBeInstalled=()
-nodeIsInstalled=false
 
 source $installDir/DetectPackageManager.sh
 echo "Your package manager is $PACKAGEMANAGER"
@@ -24,10 +24,7 @@ if [ "${#packagesWillBeInstalled[@]}" -eq 0 ];
 then
     echo "All required packages are installed"
 else
-    if [ "$nodeIsInstalled" = false ];
-    then
-        echo "Node is not installed"
-    fi
+
     echo 'We will install this packages :' "${packagesWillBeInstalled[@]}"
     read -p "Do you want to install this packages? (Y/n)" -n 1 -r
     if [ "$REPLY" = "" ];
@@ -44,16 +41,6 @@ else
     fi
 fi
 
-if [ "$nodeIsInstalled" = false ];
-then
-    echo "Node is not installed"
-    echo "Installing Node..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    source ~/.bashrc
-    nvm install v20.11.1
-    nvm use v20.11.1
-fi
-
 if [ -d /CreeperCommander ];
 then
     echo "CreeperCommander is already installed in /CreeperCommander, if you want to reinstall CreeperCommander, please remove /CreeperCommander"
@@ -67,8 +54,8 @@ cd /CreeperCommander
 mkdir servers
 git clone https://github.com/CreeperCommander/CreeperCommanderWebsite
 cd /CreeperCommander/CreeperCommanderWebsite
-npm install
-npm run build
+
+# TODO: Create and fill DockerFile and DockerCompose
 
 if [ $CREEPER_COMMANDER_DIR ];
 then
@@ -83,17 +70,17 @@ else
 fi
 echo "If you use another shell, please set CREEPER_COMMANDER_DIR to /CreeperCommander in your shell configuration file (ie: .bashrc, .zshrc)"
 
-read -p "Do you want to create a service to start Creeper Commander Website automatically? (Y/n)" -n 1 -r
+read -p "Do you want to the app start automatically at boot ? (Y/n)" -n 1 -r
 if [ "$REPLY" = "" ];
 then
     REPLY="Y"
 fi
 if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ];
 then
-    echo "Creating service..."
-    source $installDir/CreateCreeperCommanderService.sh
+  cd $CREEPER_COMMANDER_DIR
+  sudo docker run hello-world
 else
-    echo "Service creation canceled">&2;
+    echo "You will need to start it manually with : sudo docker run albanagisa/creeper_commander"
 fi
 source $HOME/.bashrc
 
