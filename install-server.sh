@@ -33,7 +33,7 @@ fi
 
 echo "Installing Minecraft server version $minecraftVersion with the name $serverName in $HOME/CreeperCommander/servers/$minecraftVersion-$serverName"
 echo "Press Ctrl + C to stop the installation ..."
-sleep 50
+sleep 5
 echo ""
 
 # Check if the server already exists
