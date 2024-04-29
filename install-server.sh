@@ -43,7 +43,7 @@ mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
 # Install the server
-wget "https://serverjars.com/api/fetchJar/servers/$serverVersion" -O "server.jar"
+wget "https://maven.fabricmc.net/net/fabricmc/fabric-installer/$serverVersion/fabric-installer-$serverVersion.jar" -O "server.jar"
 echo "eula=true" > eula.txt
 
 # Create server properties
