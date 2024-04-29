@@ -10,7 +10,7 @@ fi
 if [ "$#" -ne 4 or "$#" -ne 5 ]; then
     echo "Usage: $0 <minecraftVersion> <modLoader> <modLoaderVersion> <installerVersion> <serverName>"
     exit 1
-fis
+fi
 
 # Extract arguments
 minecraftVersion="$1"
