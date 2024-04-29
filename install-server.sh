@@ -6,6 +6,8 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+sudo apt install curl jq -y
+
 # Check if the required arguments are provided
 if [ "$#" -ne 4 ] && [ "$#" -ne 5 ]; then
     echo "Usage: $0 <minecraftVersion> <modLoader> <modLoaderVersion> <installerVersion> <serverName>"
