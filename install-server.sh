@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Check if the required arguments are provided
-if [ "$#" -ne 4 or "$#" -ne 5 ]; then
+if [ "$#" -ne 4 ] && [ "$#" -ne 5 ]; then
     echo "Usage: $0 <minecraftVersion> <modLoader> <modLoaderVersion> <installerVersion> <serverName>"
     exit 1
 fi
