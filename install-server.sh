@@ -30,17 +30,16 @@ if [ -z "$serverName" ]; then
     exit 1
 fi
 
-
-echo "Installing Minecraft server version $minecraftVersion with the name $serverName in $HOME/CreeperCommander/servers/$minecraftVersion-$serverName"
-echo "Press Ctrl + C to stop the installation ..."
-sleep 5
-echo ""
-
 # Check if the server already exists
 if [ -d "$HOME/CreeperCommander/servers/$minecraftVersion-$serverName" ]; then
     echo "Server already exists with the same name and version"
     exit 1
 fi
+
+echo "Installing Minecraft server version $minecraftVersion with the name $serverName in $HOME/CreeperCommander/servers/$minecraftVersion-$serverName"
+echo "Press Ctrl + C to stop the installation ..."
+sleep 5
+echo ""
 
 # Create the minecraft user if not exists
 if ! id "minecraft" &>/dev/null; then
