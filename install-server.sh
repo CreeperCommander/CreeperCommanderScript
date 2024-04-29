@@ -56,7 +56,7 @@ cd "$serverDir" || exit 1
 
 # Install the server
 if [ "$modLoader" == "fabric" ]; then
-    curl -OJ https://meta.fabricmc.net/v2/versions/loader/1.20.5/0.15.10/1.0.1/server/jar  -O "installer.jar"
+    curl -OJ https://meta.fabricmc.net/v2/versions/loader/$minecraftVersion/$modLoaderVersion/1.0.1/server/jar  -O "installer.jar"
 elif [ "$modLoader" == "forge" ]; then
     curl -OJ "https://maven.minecraftforge.net/net/minecraftforge/forge/$minecraftVersion-$modLoaderVersion/forge-$minecraftVersion-$modLoaderVersion-installer.jar" -O "installer.jar"
 elif [ "modLoader" == "vanilla" ]; then
