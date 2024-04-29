@@ -22,6 +22,10 @@ if [ -z "$serverName" ]; then
     exit 1
 fi
 
+console.log("serverVersion: ", serverVersion);
+console.log("serverName: ", serverName);
+console.log("HOME: ", HOME);    
+
 # Check if the server already exists
 if [ -d "$HOME/CreeperCommander/servers/$serverVersion-$serverName" ]; then
     echo "Server already exists with the same name and version"
