@@ -64,7 +64,7 @@ if [ "$modLoader" == "fabric" ]; then
     wget https://meta.fabricmc.net/v2/versions/loader/$minecraftVersion/$modLoaderVersion/1.0.1/server/jar  -O "installer.jar"
 elif [ "$modLoader" == "forge" ]; then
     wget "https://maven.minecraftforge.net/net/minecraftforge/forge/$minecraftVersion-$modLoaderVersion/forge-$minecraftVersion-$modLoaderVersion-installer.jar" -O "installer.jar"
-elif [ "modLoader" == "vanilla" ]; then
+elif [ "$modLoader" == "vanilla" ]; then
     wget "https://launcher.mojang.com/v1/objects/$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .url" | xargs curl -s | jq -r ".downloads.server.url")" -O "installer.jar"
 else
     echo "Mod loader $modLoader is not supported"
@@ -75,21 +75,21 @@ java -Xmx2G -jar installer.jar nogui
 echo "eula=true" > eula.txt
 
 # Create server properties
-cat << EOF > server.properties
-serverJar=server.jar
-minecraftVersion=$minecraftVersion
-serverName=$serverName-$minecraftVersion
-serverPort=25565
-serverIp=localhost
-serverMaxPlayers=20
-serverMotd=Welcome to the server
-serverDifficulty=easy
-serverGamemode=survival
-serverWorld=world
-serverSeed=
-serverSpawnProtection=16
-serverViewDistance=10
-EOF
+#cat << EOF > server.properties
+#serverJar=server.jar
+#minecraftVersion=$minecraftVersion
+#serverName=$serverName-$minecraftVersion
+#serverPort=25565
+#serverIp=localhost
+#serverMaxPlayers=20
+#serverMotd=Welcome to the server
+#serverDifficulty=easy
+#serverGamemode=survival
+#serverWorld=world
+#serverSeed=
+#serverSpawnProtection=16
+#serverViewDistance=10
+#EOF
 
 # Clean up server jar
 rm "installer.jar"
