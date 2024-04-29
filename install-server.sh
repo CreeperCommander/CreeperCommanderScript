@@ -64,7 +64,7 @@ serverViewDistance=10
 EOF
 
 # Start the server
-java -Xmx1024M -Xms512M -jar server.jar nogui
+java -Xmx1024M -Xms512M -jar server.jar
 
 # Clean up server jar
 rm "server.jar"
