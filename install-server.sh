@@ -22,9 +22,9 @@ if [ -z "$serverName" ]; then
     exit 1
 fi
 
-console.log("serverVersion: ", $serverVersion);
-console.log("serverName: ", $serverName);
-console.log("HOME: ", $HOME);    
+
+echo "Installing Minecraft server version $serverVersion with the name $serverName in $HOME/CreeperCommander/servers/$serverVersion-$serverName"
+echo "Press Ctrl + C to stop the installation"
 
 # Check if the server already exists
 if [ -d "$HOME/CreeperCommander/servers/$serverVersion-$serverName" ]; then
