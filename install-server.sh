@@ -57,6 +57,8 @@ serverDir="$HOME/CreeperCommander/servers/$minecraftVersion-$serverName"
 mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
+echo "Mod Loader : $modLoader"
+
 # Install the server
 if [ "$modLoader" == "fabric" ]; then
     curl -OJ https://meta.fabricmc.net/v2/versions/loader/$minecraftVersion/$modLoaderVersion/1.0.1/server/jar  -O "installer.jar"
