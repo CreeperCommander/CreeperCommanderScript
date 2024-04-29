@@ -53,7 +53,7 @@ echo "minecraft ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/minecraft
 echo "Defaults:minecraft !requiretty" >> /etc/sudoers.d/minecraft
 
 # Create the server directory
-serverDir="$HOME/CreeperCommander/servers/$minecraftVersion-$serverName"
+serverDir="/CreeperCommander/servers/$minecraftVersion-$serverName"
 mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
@@ -71,8 +71,8 @@ else
     exit 1
 fi
 
-java -Xmx2G -jar installer.jar nogui
 echo "eula=true" > eula.txt
+java -Xmx2G -jar installer.jar nogui
 
 # Create server properties
 #cat << EOF > server.properties
@@ -91,9 +91,7 @@ echo "eula=true" > eula.txt
 #serverViewDistance=10
 #EOF
 
-# Clean up server jar
-rm "installer.jar"
-
+mv installer.jar start.jar
 # Optional: Create service and start it (uncomment if needed)
 # Create the service
 # cat << EOF > minecraft-server-$minecraftVersion.service
