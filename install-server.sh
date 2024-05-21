@@ -77,8 +77,8 @@ if [ ! -f "installer.jar" ]; then
     exit 1
 fi
 
-echo "eula=true" > eula.txt
 java -Xmx2G -jar installer.jar nogui
+echo "eula=true" > eula.txt
 
 # Create server properties
 #cat << EOF > server.properties
