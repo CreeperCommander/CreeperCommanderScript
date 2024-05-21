@@ -33,7 +33,7 @@ elif (( $2 == "vanilla" ))
 then
     JAVA="openjdk-11-jdk";
 else
-    JAVA=openjdk-8-jdk";
+    JAVA="openjdk-8-jdk";
 fi
 
 
