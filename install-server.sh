@@ -8,6 +8,7 @@ fi
 
 sudo apt install curl jq -y
 
+
 # Check if the required arguments are provided
 if [ "$#" -ne 4 ] && [ "$#" -ne 5 ]; then
     bash server-installer/sendhelp.sh install-server.sh
@@ -58,14 +59,22 @@ serverDir="/CreeperCommander/servers/$minecraftVersion-$serverName"
 mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
-# Install the server
+# Install the server and the java version required for the server
 if [ "$modLoader" == "fabric" ]; then
     wget https://meta.fabricmc.net/v2/versions/loader/$minecraftVersion/$modLoaderVersion/1.0.1/server/jar  -O "installer.jar"
+
+    javaVersion=$(curl -s https://meta.fabricmc.net/v2/versions/loader/$minecraftVersion/$modLoaderVersion/1.0.1/ | jq -r ".javaVersion")
+    apt install openjdk-"$javaVersion"-jdk -y
 elif [ "$modLoader" == "forge" ]; then
     wget "https://maven.minecraftforge.net/net/minecraftforge/forge/$minecraftVersion-$modLoaderVersion/forge-$minecraftVersion-$modLoaderVersion-installer.jar" -O "installer.jar"
+
+    javaVersion=$(curl -s "https://files.minecraftforge.net/maven/net/minecraftforge/forge/$minecraftVersion-$modLoaderVersion/forge-$minecraftVersion-$modLoaderVersion-installer.jar" | grep -oP "java_version\":\"\K[^\"]+")
+    apt install openjdk-"$javaVersion"-jdk -y
 elif [ "$modLoader" == "vanilla" ]; then
     wget "$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .url" | xargs curl -s | jq -r ".downloads.server.url")" -O "installer.jar"
-    # wget "https://launcher.mojang.com/v1/objects/$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .url" | xargs curl -s | jq -r ".downloads.server.url")" -O "installer.jar"
+
+    javaVersion=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .javaVersion")
+    apt install openjdk-"$javaVersion"-jdk -y
 else
     echo "Mod loader $modLoader is not supported"
     exit 1
