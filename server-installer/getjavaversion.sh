@@ -22,13 +22,16 @@ minecraftVersionThirdPart_int=$((minecraftVersionThirdPart))
 
 if (( $minecraftVersionSecondPart_int == 20 || $minecraftVersionThirdPart_int > 4));
 then
-    wget https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz;
-    tar xvf openjdk-21.0.2_linux-x64_bin.tar.gz
-    sudo mv jdk-21.0.2/ /usr/local/jdk-21
+    curl -LO https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz    tar xvf openjdk-21.0.2_linux-x64_bin.tar.gz
+    echo "$(curl -s https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz.sha256) openjdk-21_linux-x64_bin.tar.gz" | \ sha256sum -c
+    
+    sha256sum openjdk-21_linux-x64_bin.tar.gz
+    tar xzf openjdk-21_linux-x64_bin.tar.gz
+    ls {.,jdk-21}
 
     export PATH=$(readlink -f ./jdk-21/bin):$PATH
     export JAVA_HOME=$(readlink -f .)
-    
+
     source /etc/profile.d/jdk21.sh
 elif (( $minecraftVersionSecondPart_int > 17 ));
 then
