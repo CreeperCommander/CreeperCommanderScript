@@ -64,7 +64,8 @@ if [ "$modLoader" == "fabric" ]; then
 elif [ "$modLoader" == "forge" ]; then
     wget "https://maven.minecraftforge.net/net/minecraftforge/forge/$minecraftVersion-$modLoaderVersion/forge-$minecraftVersion-$modLoaderVersion-installer.jar" -O "installer.jar"
 elif [ "$modLoader" == "vanilla" ]; then
-    wget "https://launcher.mojang.com/v1/objects/$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .url" | xargs curl -s | jq -r ".downloads.server.url")" -O "installer.jar"
+    wget "https://piston-data.mojang.com/v1/objects/$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .url" | xargs curl -s | jq -r ".downloads.server.url")" -O "installer.jar"
+    # wget "https://launcher.mojang.com/v1/objects/$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json | jq -r ".versions[] | select(.id == \"$minecraftVersion\") | .url" | xargs curl -s | jq -r ".downloads.server.url")" -O "installer.jar"
 else
     echo "Mod loader $modLoader is not supported"
     exit 1
