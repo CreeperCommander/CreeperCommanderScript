@@ -16,6 +16,10 @@ JAVA=""
 minecraftVersionSecondPart=$(echo $1 | cut -d'.' -f2)
 minecraftVersionSecondPart_int=$((minecraftVersionSecondPart))
 
+minecraftVersionThirdPart=$(echo $1 | cut -d'.' -f3)
+minecraftVersionThirdPart_int=$((minecraftVersionThirdPart))
+
+
 if [ minecraftVersionSecondPart_int < 8 ]; 
 then
     sudo add-apt-repository ppa:openjdk-r/ppa  
@@ -29,10 +33,13 @@ then
 elif [ minecraftVersionSecondPart_int == 17 ];
 then
     JAVA="openjdk-16-jdk"
-else 
+elif [ minecraftVersionSecondPart_int == 20 && minecraftVersionThirdPart_int >= 5 ];
+then
+    JAVA="openjdk-21-jdk"
+else
     JAVA="openjdk-17-jdk"
 fi
 
-echo "--------------------------------------------------------------------------------------------"
+echo "-----------------------------------------------------------------"
 echo "Java version : $JAVA"
-echo "--------------------------------------------------------------------------------------------"
+echo "-----------------------------------------------------------------"
