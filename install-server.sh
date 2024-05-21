@@ -1,5 +1,7 @@
 #!/bin/bash
 
+WorkingDirectory=$(pwd)
+
 # Check if the script is run as root
 if [ "$EUID" -ne 0 ]; then
     echo "You must run this script as root"
@@ -60,7 +62,7 @@ mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
 
-source $(pwd)/server-installer/getjavaversion.sh $minecraftVersion
+source $WorkingDirectory/server-installer/getjavaversion.sh $minecraftVersion
 echo $JAVA
 apt install $JAVA -y
 
