@@ -26,11 +26,9 @@ then
     tar xvf openjdk-21.0.2_linux-x64_bin.tar.gz
     sudo mv jdk-21.0.2/ /usr/local/jdk-21
 
-    bash "sudo tee -a  /etc/profile.d/jdk21.sh<<EOF
-    export JAVA_HOME=/usr/local/jdk-21
-    export PATH=\$PATH:\$JAVA_HOME/bin
-    EOF"
-
+    export PATH=$(readlink -f ./jdk-21/bin):$PATH
+    export JAVA_HOME=$(readlink -f .)
+    
     source /etc/profile.d/jdk21.sh
 elif (( $minecraftVersionSecondPart_int > 17 ));
 then
