@@ -60,7 +60,7 @@ mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
 
-source server-installer/getjavaversion.sh $minecraftVersion
+source $(pwd)/server-installer/getjavaversion.sh $minecraftVersion
 echo $JAVA
 apt install $JAVA -y
 
