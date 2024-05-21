@@ -72,6 +72,11 @@ fi
 
 echo "Mod Loader : $modLoader"
 
+if [ ! -f "installer.jar" ]; then
+    echo "Failed to download the installer"
+    exit 1
+fi
+
 echo "eula=true" > eula.txt
 java -Xmx2G -jar installer.jar nogui
 
