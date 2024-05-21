@@ -10,7 +10,7 @@ sudo apt install curl jq -y
 
 # Check if the required arguments are provided
 if [ "$#" -ne 4 ] && [ "$#" -ne 5 ]; then
-    echo "Usage: $0 <minecraftVersion> <modLoader> <modLoaderVersion> <installerVersion> <serverName>"
+    bash server-installer/sendhelp.sh install-server.sh
     exit 1
 fi
 
@@ -28,7 +28,8 @@ fi
 
 # Check if the server name is provided
 if [ -z "$serverName" ]; then
-    echo "You must specify the minecraft version, mod loader, mod loader version, installer version and server name"
+    echo "Server name is required"
+    bash server-installer/sendhelp.sh install-server.sh
     exit 1
 fi
 
@@ -57,8 +58,6 @@ serverDir="/CreeperCommander/servers/$minecraftVersion-$serverName"
 mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 
-echo "Mod Loader : $modLoader"
-
 # Install the server
 if [ "$modLoader" == "fabric" ]; then
     wget https://meta.fabricmc.net/v2/versions/loader/$minecraftVersion/$modLoaderVersion/1.0.1/server/jar  -O "installer.jar"
@@ -70,6 +69,8 @@ else
     echo "Mod loader $modLoader is not supported"
     exit 1
 fi
+
+echo "Mod Loader : $modLoader"
 
 echo "eula=true" > eula.txt
 java -Xmx2G -jar installer.jar nogui
