@@ -23,10 +23,10 @@ then
 elif [ minecraftVersionSecondPart_int < 16 ]; 
 then
     JAVA="openjdk-8-jdk"
-elif [ minecraftVersionSecondPart_int == 16];
+elif [ minecraftVersionSecondPart_int == 16 ];
 then
     JAVA="openjdk-11-jdk"
-elif [ minecraftVersionSecondPart_int == 17];
+elif [ minecraftVersionSecondPart_int == 17 ];
 then
     JAVA="openjdk-16-jdk"
 else 
