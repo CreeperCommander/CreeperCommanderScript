@@ -22,7 +22,16 @@ minecraftVersionThirdPart_int=$((minecraftVersionThirdPart))
 
 if (( $minecraftVersionSecondPart_int == 20 || $minecraftVersionThirdPart_int > 4));
 then
-    JAVA="openjdk-21-jdk";
+    wget https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz;
+    tar xvf openjdk-21.0.2_linux-x64_bin.tar.gz
+    sudo mv jdk-21.0.2/ /usr/local/jdk-21
+
+    bash "sudo tee -a  /etc/profile.d/jdk21.sh<<EOF
+    export JAVA_HOME=/usr/local/jdk-21
+    export PATH=\$PATH:\$JAVA_HOME/bin
+    EOF"
+
+    source /etc/profile.d/jdk21.sh
 elif (( $minecraftVersionSecondPart_int > 17 ));
 then
     JAVA="openjdk-17-jdk";

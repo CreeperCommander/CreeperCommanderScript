@@ -63,7 +63,6 @@ cd "$serverDir" || exit 1
 
 
 source $WorkingDirectory/server-installer/getjavaversion.sh $minecraftVersion
-echo $JAVA
 apt install $JAVA -y
 
 
