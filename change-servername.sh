@@ -16,7 +16,8 @@ if [ -z "$newServerName" ]; then
 fi
 
 serverVersion=$(echo "$server" | cut -d'-' -f1)
-newServerName="$serverVersion-$newServerName"
+serverLoader=$(echo "$server" | cut -d'-' -f2)
+newServerName="$serverVersion-$serverLoader-$newServerName"
 if [ -d "$CreeperCommanderHome/servers/$newServerName" ]; then
     echo "Server $newServerName already exists"
     exit 1

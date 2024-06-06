@@ -24,12 +24,12 @@ if [ -z "$serverName" ]; then
     echo "You must specify the minecraft version, mod loader, mod loader version, installer version and server name"
     exit 1
 fi
-if [ -d "$HOME/CreeperCommander/servers/$minecraftVersion-$serverName" ]; then
+if [ -d "$HOME/CreeperCommander/servers/$minecraftVersion-$modLoader-$serverName" ]; then
     echo "Server already exists with the same name and version"
     exit 1
 fi
 echo "Installing Minecraft server version $minecraftVersion with the name $serverName in $CreeperCommanderHome/servers/$minecraftVersion-$serverName"
-serverDir="$CreeperCommanderHome/servers/$minecraftVersion-$serverName"
+serverDir="$CreeperCommanderHome/servers/$minecraftVersion-$modLoader-$serverName"
 mkdir -p "$serverDir"
 cd "$serverDir" || exit 1
 echo "Mod Loader : $modLoader"
